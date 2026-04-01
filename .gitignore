@@ -1,0 +1,32 @@
+node_modules/
+
+# Playwright and reporting artifacts
+test-results/
+playwright-report/
+allure-results/
+allure-report/
+.playwright-mcp/
+
+# Local environment overrides
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+logs/
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+*.swp
+
+# IDE and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local-only workspace folders
+AppData/
+Temp/

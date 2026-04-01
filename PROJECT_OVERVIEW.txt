@@ -1,0 +1,197 @@
+Playwright-Typescript-Framework Overview
+=======================================
+
+1. Project Purpose
+------------------
+This repository is a Playwright + TypeScript test automation framework for browser-based UI coverage and API coverage.
+
+Current scope:
+- UI tests for the-internet.herokuapp.com flows
+- API tests for a stable public API
+- Allure reporting
+- Environment and brand based runtime selection
+- Worker-safe account allocation
+
+2. Project Structure
+--------------------
+config/
+- Environment and account JSON files selected by `TEST_ENV` and `TEST_BRAND`
+- `config/environments/<env>/<brand>.json` stores runtime URLs
+- `config/accounts/<env>/<brand>.json` stores default and named accounts
+
+src/config/
+- Core provider layer for environment loading, account loading, and final framework config assembly
+
+src/pages/
+- UI page objects
+- Page objects should stay selector-focused and avoid business logic
+
+src/steps/
+- UI step classes
+- Steps combine actions and assertions into reusable business-level flows
+
+src/api/client/
+- API request clients built on Playwright `APIRequestContext`
+- Sends HTTP requests only
+
+src/api/steps/
+- API steps classes
+- Wrap request calls with reusable API flows and assertions
+
+src/api/models/
+- TypeScript request and response models for API coverage
+
+tests/ui/
+- Thin UI specs grouped by feature
+- Tests orchestrate steps and keep scenario intent readable
+
+tests/api/
+- Thin API specs
+- Tests create API steps and validate business-level outcomes
+
+scripts/
+- Utility scripts such as artifact cleanup
+
+3. Class Responsibilities
+-------------------------
+`src/config/environmentProvider.ts`
+- Resolves environment config from `config/environments/<env>/<brand>.json`
+- Validates required fields such as `baseUrl` and `apiBaseUrl`
+
+`src/config/accountProvider.ts`
+- Loads accounts from `config/accounts/<env>/<brand>.json`
+- Provides worker-based default account allocation
+- Provides named account lookup
+- Validates worker pool size against available default accounts
+
+`src/config/frameworkConfigProvider.ts`
+- Builds the final `frameworkConfig`
+- Applies env var overrides such as `BASE_URL`, `API_BASE_URL`, `WORKERS`, browser, timeouts, and viewport
+- Must remain the single config entry point used by the framework
+
+`src/pages/BasePage.ts`
+- Shared UI page foundation for common page object behavior
+
+UI step classes in `src/steps/`
+- Own reusable UI actions and assertions
+- Coordinate page objects for test scenarios
+
+`src/api/client/ApiClient.ts`
+- Current API client used by the posts API steps
+- Sends requests through Playwright `APIRequestContext`
+- Uses `frameworkConfig.environment.apiBaseUrl`
+
+`src/api/steps/PostsApiSteps.ts`
+- Encapsulates post-related API flows and assertions
+- Keeps API specs thin and readable
+
+4. Account and Environment Logic
+--------------------------------
+Environment and brand selection:
+- `TEST_ENV` selects the environment folder, for example `dev` or `uat`
+- `TEST_BRAND` selects the brand JSON file inside that environment
+- Selection path is:
+  `config/environments/<env>/<brand>.json`
+  `config/accounts/<env>/<brand>.json`
+
+Environment overrides:
+- UI URL can be overridden with `BASE_URL` or `PW_BASE_URL`
+- API URL can be overridden with `API_BASE_URL`
+- Provider logic should not be bypassed directly from tests or clients
+
+Account model:
+- `default` accounts are the worker pool
+- `named` accounts are for explicit test access such as `demo` or `admin`
+
+Worker allocation:
+- Worker account mapping is based on `workerIndex`
+- Allocation uses modulo against the `default` account list
+- Worker pool validation fails fast if requested workers exceed available default accounts
+
+Important note:
+- This environment and account logic is core framework behavior and should not be broken during refactoring
+
+5. Libraries Used
+-----------------
+`@playwright/test`:
+- Browser automation for UI tests
+- Built-in `APIRequestContext` for API tests
+- Test runner, fixtures, retries, trace capture, and screenshot hooks used by the framework
+
+`typescript`:
+- Static typing for test code, providers, steps, and models
+- Compiler used to validate framework contracts and catch regressions early
+
+`allure-playwright`:
+- Generates Allure-compatible result files during test runs
+- Connects Playwright execution details to Allure without changing test structure
+
+`allure-commandline`:
+- Builds and opens Allure reports from result artifacts
+- Local CLI used by the reporting npm scripts
+
+`@faker-js/faker`:
+- Generates realistic test payload data through dedicated factories/helpers
+- Must stay out of config providers, account selection, and other core framework behavior
+
+`cross-env`:
+- Cross-platform environment variable support in npm scripts
+
+`@types/node`:
+- Type definitions for Node.js APIs used by framework scripts and providers
+
+6. Scripts
+----------
+`npm test`
+- Runs the Playwright suite
+
+`npm run test:headed`
+- Runs tests with visible browser UI
+
+`npm run test:browser:chromium`
+`npm run test:browser:firefox`
+`npm run test:browser:webkit`
+- Shortcut browser-specific runs
+
+`npm run clean`
+- Cleans generated test artifacts
+
+`npm run clean:allure`
+- Cleans Allure artifacts only
+
+`npm run allure:generate`
+- Generates the Allure report
+
+`npm run allure:open`
+- Opens the generated Allure report
+
+`npm run allure:report`
+- Generates and opens the report in one step
+
+7. Running Tests
+----------------
+UI tests:
+- Run all UI tests with `npx playwright test tests/ui`
+- Run with env and brand using `npx cross-env TEST_ENV=uat TEST_BRAND=brandA playwright test tests/ui`
+
+API tests:
+- Run all API tests with `npx playwright test tests/api`
+- Run by API tag with `npx playwright test --grep "@API"`
+
+Filter by tags or TMS:
+- `npx playwright test --grep "@TMS-1001"`
+- `npx playwright test --grep "@TMS-1008|@TMS-1010"`
+
+Environment overrides:
+- `BASE_URL=...` overrides the UI URL
+- `API_BASE_URL=...` overrides the API URL
+- `WORKERS=2` overrides framework worker count
+
+8. Important Framework Principles
+---------------------------------
+- Page Objects = selectors and page-level elements only
+- Steps = actions plus assertions
+- Tests = thin orchestration only
+- Config providers must not be bypassed
+- Environment and account selection behavior must remain stable
+- API and UI layers should remain separated

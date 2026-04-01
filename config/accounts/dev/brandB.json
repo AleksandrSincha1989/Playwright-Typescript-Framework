@@ -1,0 +1,38 @@
+{
+  "default": [
+    {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    },
+    {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    },
+    {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    },
+    {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    }
+  ],
+  "named": {
+    "demo": {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    },
+    "admin": {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    },
+    "readonly": {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    },
+    "blockedUser": {
+      "username": "tomsmith",
+      "password": "SuperSecretPassword!"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Playwright-Typescript-Framework",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright and TypeScript test automation framework with UI, API, environment-based config, and Allure reporting.",
+  "scripts": {
+    "clean": "node scripts/clean.js",
+    "clean:pw": "node scripts/clean.js",
+    "clean:allure": "node scripts/clean.js allure",
+    "test": "playwright test",
+    "test:ui": "playwright test tests/ui",
+    "test:api": "playwright test tests/api",
+    "test:headed": "playwright test --headed",
+    "test:browser:chromium": "cross-env PW_BROWSER=chromium playwright test",
+    "test:browser:firefox": "cross-env PW_BROWSER=firefox playwright test",
+    "test:browser:webkit": "cross-env PW_BROWSER=webkit playwright test",
+    "typecheck": "tsc --noEmit",
+    "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
+    "allure:open": "allure open ./allure-report",
+    "allure:report": "npm run allure:generate && npm run allure:open"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.3.0",
+    "allure-commandline": "^2.34.1",
+    "allure-playwright": "^3.4.1",
+    "cross-env": "^10.0.0",
+    "typescript": "^5.9.2"
+  }
+}

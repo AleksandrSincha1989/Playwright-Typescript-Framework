@@ -1,0 +1,4 @@
+{
+  "baseUrl": "https://the-internet.herokuapp.com",
+  "apiBaseUrl": "https://jsonplaceholder.typicode.com"
+}
