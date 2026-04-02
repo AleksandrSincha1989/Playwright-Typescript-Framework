@@ -1,0 +1,16 @@
+[2026-04-02T16:06:31.983Z] [INFO] Test started {
+  title: 'Should confirm a destructive action and show the accepted result',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/javascript-alerts/javascript-confirm-accept.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:32.429Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:32.667Z] [INFO] Opened JavaScript alerts page
+[2026-04-02T16:06:32.736Z] [INFO] JavaScript confirm accepted
+[2026-04-02T16:06:32.741Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:32.742Z] [INFO] JavaScript result verified { text: 'You clicked: Ok' }
+[2026-04-02T16:06:32.744Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 784 }

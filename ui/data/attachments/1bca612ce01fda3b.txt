@@ -1,0 +1,15 @@
+[2026-04-02T16:06:32.836Z] [INFO] Test started {
+  title: 'Should cancel a destructive action and show the cancelled result',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/javascript-alerts/javascript-confirm-dismiss.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:33.300Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:33.585Z] [INFO] Opened JavaScript alerts page
+[2026-04-02T16:06:33.651Z] [INFO] JavaScript confirm dismissed
+[2026-04-02T16:06:33.655Z] [INFO] JavaScript result verified { text: 'You clicked: Cancel' }
+[2026-04-02T16:06:33.658Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 846 }

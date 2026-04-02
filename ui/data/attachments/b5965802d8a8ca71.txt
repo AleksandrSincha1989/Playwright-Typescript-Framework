@@ -1,0 +1,23 @@
+[2026-04-02T16:06:35.413Z] [INFO] Test started {
+  title: 'Should display the secure area page after login with the assigned worker account',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/main-page/main-page.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:35.415Z] [INFO] Opening login page
+[2026-04-02T16:06:35.869Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:36.156Z] [INFO] Using assigned worker account { username: 'tomsmith' }
+[2026-04-02T16:06:36.157Z] [DEBUG] Submitting credentials { username: 'tomsmith', passwordLength: 20 }
+[2026-04-02T16:06:36.240Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:36.381Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:36.381Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:36.381Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:36.393Z] [INFO] Secure area page is open { url: 'https://the-internet.herokuapp.com/secure' }
+[2026-04-02T16:06:36.397Z] [INFO] Secure area heading verified
+[2026-04-02T16:06:36.404Z] [INFO] Logout button verified
+[2026-04-02T16:06:36.408Z] [INFO] Secure area message verified
+[2026-04-02T16:06:36.409Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 1022 }

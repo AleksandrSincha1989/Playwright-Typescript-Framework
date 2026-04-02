@@ -1,0 +1,17 @@
+[2026-04-02T16:06:27.087Z] [INFO] Test started {
+  title: 'Should show a clear error when logging in with an invalid password',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/auth/login-invalid-password.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:27.095Z] [INFO] Opening login page
+[2026-04-02T16:06:27.580Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:27.946Z] [DEBUG] Submitting credentials { username: 'tomsmith', passwordLength: 14 }
+[2026-04-02T16:06:28.065Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:28.201Z] [INFO] Invalid password message verified
+[2026-04-02T16:06:28.209Z] [INFO] Login page remains open { url: 'https://the-internet.herokuapp.com/login' }
+[2026-04-02T16:06:28.211Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 1184 }

@@ -1,0 +1,18 @@
+[2026-04-02T16:06:27.083Z] [INFO] Test started {
+  title: 'Should add multiple dynamic elements and remove a specific one',
+  workerIndex: 0,
+  parallelIndex: 0,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/add-remove-elements/add-remove-elements.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:27.580Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:27.819Z] [INFO] Opened add/remove elements page
+[2026-04-02T16:06:27.925Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:27.963Z] [INFO] Elements added { count: 3 }
+[2026-04-02T16:06:27.975Z] [INFO] Delete button count verified { count: 3 }
+[2026-04-02T16:06:28.012Z] [INFO] Element removed { index: 1 }
+[2026-04-02T16:06:28.016Z] [INFO] Delete button count verified { count: 2 }
+[2026-04-02T16:06:28.018Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 995 }

@@ -1,0 +1,29 @@
+[2026-04-02T16:06:29.255Z] [INFO] Test started {
+  title: 'Should log out after a successful login and show a confirmation message',
+  workerIndex: 0,
+  parallelIndex: 0,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/auth/logout-after-login.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:29.259Z] [INFO] Opening login page
+[2026-04-02T16:06:29.708Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.012Z] [INFO] Using assigned worker account { username: 'tomsmith' }
+[2026-04-02T16:06:30.014Z] [DEBUG] Submitting credentials { username: 'tomsmith', passwordLength: 20 }
+[2026-04-02T16:06:30.108Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.252Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.252Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.253Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.269Z] [INFO] Secure area page is open { url: 'https://the-internet.herokuapp.com/secure' }
+[2026-04-02T16:06:30.323Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.430Z] [INFO] Logout clicked
+[2026-04-02T16:06:30.452Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.452Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.452Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.452Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.452Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:30.458Z] [INFO] Login page remains open { url: 'https://the-internet.herokuapp.com/login' }
+[2026-04-02T16:06:30.463Z] [INFO] Logout message verified
+[2026-04-02T16:06:30.465Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 1247 }

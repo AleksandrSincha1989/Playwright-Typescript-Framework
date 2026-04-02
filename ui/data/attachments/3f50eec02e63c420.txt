@@ -1,0 +1,21 @@
+[2026-04-02T16:06:31.054Z] [INFO] Test started {
+  title: 'Should upload a file and show the uploaded file name',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/file-upload/file-upload-success.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:31.496Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:31.737Z] [INFO] Opened file upload page
+[2026-04-02T16:06:31.811Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:31.864Z] [INFO] File uploaded {
+  filePath: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/src/test-data/upload-demo.txt'
+}
+[2026-04-02T16:06:31.891Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:31.892Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:31.892Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:31.897Z] [INFO] Uploaded file verified { fileName: 'upload-demo.txt' }
+[2026-04-02T16:06:31.899Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 873 }

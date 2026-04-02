@@ -1,0 +1,20 @@
+[2026-04-02T16:06:28.317Z] [INFO] Test started {
+  title: 'Should log in with the assigned worker account',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/auth/login.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:28.320Z] [INFO] Opening login page
+[2026-04-02T16:06:28.710Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:29.042Z] [INFO] Using assigned worker account { username: 'tomsmith' }
+[2026-04-02T16:06:29.043Z] [DEBUG] Submitting credentials { username: 'tomsmith', passwordLength: 20 }
+[2026-04-02T16:06:29.126Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:29.277Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:29.277Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:29.277Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:29.280Z] [INFO] Successful login message verified
+[2026-04-02T16:06:29.281Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 995 }

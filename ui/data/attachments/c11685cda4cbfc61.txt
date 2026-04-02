@@ -1,0 +1,15 @@
+[2026-04-02T16:06:34.602Z] [INFO] Test started {
+  title: 'Should show immediate feedback for the pressed keyboard key',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/key-presses/key-press-feedback.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-04-02T16:06:34.999Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-04-02T16:06:35.258Z] [INFO] Opened key presses page
+[2026-04-02T16:06:35.286Z] [INFO] Key pressed { key: 'A' }
+[2026-04-02T16:06:35.291Z] [INFO] Pressed key result verified { expectedKey: 'A' }
+[2026-04-02T16:06:35.293Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 716 }
