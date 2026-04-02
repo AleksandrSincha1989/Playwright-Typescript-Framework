@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","250","Should create a post successfully","","2026-04-02","passed","2026-04-02","","api/create-post.spec.ts","",""
+"","522","Should get the posts list successfully","","2026-04-02","passed","2026-04-02","","api/get-posts.spec.ts","",""
+"","234","Should get a single post successfully","","2026-04-02","passed","2026-04-02","","api/get-post.spec.ts","",""
