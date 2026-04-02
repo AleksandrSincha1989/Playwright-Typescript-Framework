@@ -147,13 +147,67 @@ npm run allure:open
 
 ## CI/CD Intent
 
-This project is set up for straightforward CI execution and artifact publishing. A typical pipeline should:
+GitHub Actions workflow has been added at `.github/workflows/playwright-ci.yml`.
+
+The workflow runs on `push` and `pull_request` and performs:
 
 1. Install dependencies with `npm ci`
-2. Install Playwright browsers with `npx playwright install --with-deps` when needed by the runner
-3. Execute UI and API suites with explicit `TEST_ENV`, `TEST_BRAND`, and `HEADLESS=true`
-4. Publish `playwright-report/`, `test-results/`, or generated Allure artifacts as pipeline artifacts when useful
-5. Inject any non-demo secrets from the CI secret store rather than from committed files
+2. Apply safe CI defaults for `TEST_ENV`, `TEST_BRAND`, `BROWSER`, `HEADLESS`, and `WORKERS`
+3. Optionally append `BASE_URL` and `API_BASE_URL` only when GitHub variables are defined
+4. Install the requested Playwright browser with `npx playwright install --with-deps`
+5. Run `npm run typecheck`
+6. Clean previous generated artifacts with `npm run clean`
+7. Run the suite with `npm test`
+8. Upload `playwright-report/`, `test-results/`, and `allure-results/` as GitHub Actions artifacts
+
+The workflow intentionally uses the existing provider chain and Playwright config without bypassing:
+
+- `TEST_ENV` and `TEST_BRAND` selection
+- `frameworkConfigProvider` URL and execution overrides
+- `environmentProvider` file resolution
+- `accountProvider` worker validation and worker-based account allocation
+- existing logging, tags, TMS tags, screenshot on failure, and trace on first retry behavior
+
+## Running Locally Vs CI
+
+Local default run:
+
+```bash
+npm test
+```
+
+Local run with explicit overrides:
+
+```bash
+npx cross-env TEST_ENV=uat TEST_BRAND=brandB BROWSER=chromium HEADLESS=true WORKERS=2 playwright test
+```
+
+GitHub Actions CI run:
+
+- uses the same `npm test` entry point
+- defaults to `TEST_ENV=dev`, `TEST_BRAND=brandA`, `BROWSER=chromium`, `HEADLESS=true`, and `WORKERS=2`
+- can be extended later through GitHub repository or environment variables without changing framework architecture
+
+## CI Variables And Overrides
+
+The workflow is ready for future GitHub Actions overrides through repository or environment `Variables` and `Secrets`.
+
+Supported runtime inputs already understood by the framework:
+
+- `TEST_ENV`
+- `TEST_BRAND`
+- `BASE_URL`
+- `API_BASE_URL`
+- `BROWSER`
+- `HEADLESS`
+- `WORKERS`
+
+Recommended usage:
+
+- keep public-safe demo credentials unchanged for this sample project
+- store any future private credentials in GitHub `Secrets`
+- store non-sensitive environment-specific overrides in GitHub `Variables`
+- avoid hardcoding secret values in workflow YAML
 
 ## Suggested Review Checklist Before First Push
 
@@ -170,4 +224,5 @@ npm run test:ui
 npm run test:api
 npm run typecheck
 npm run clean
+npx cross-env TEST_ENV=dev TEST_BRAND=brandA HEADLESS=true playwright test
 ```
