@@ -1,0 +1,145 @@
+name: API Manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Target environment
+        required: true
+        type: choice
+        options:
+          - dev
+          - uat
+        default: dev
+      brand:
+        description: Target brand
+        required: true
+        type: choice
+        options:
+          - brandA
+          - brandB
+        default: brandA
+      browser:
+        description: Browser for Playwright execution
+        required: true
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+        default: chromium
+      headless:
+        description: Run browser in headless mode
+        required: true
+        type: choice
+        options:
+          - "true"
+          - "false"
+        default: "true"
+      workers:
+        description: Parallel worker count
+        required: true
+        type: choice
+        options:
+          - "1"
+          - "2"
+        default: "2"
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+
+    env:
+      TEST_ENV: ${{ inputs.environment }}
+      TEST_BRAND: ${{ inputs.brand }}
+      BROWSER: ${{ inputs.browser }}
+      HEADLESS: ${{ inputs.headless }}
+      WORKERS: ${{ inputs.workers }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Apply optional runtime overrides
+        shell: bash
+        run: |
+          if [ -n "${{ vars.BASE_URL }}" ]; then
+            echo "BASE_URL=${{ vars.BASE_URL }}" >> "$GITHUB_ENV"
+          fi
+          if [ -n "${{ vars.API_BASE_URL }}" ]; then
+            echo "API_BASE_URL=${{ vars.API_BASE_URL }}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps ${{ env.BROWSER }}
+
+      - name: Validate TypeScript
+        run: npm run typecheck
+
+      - name: Clean previous artifacts
+        run: npm run clean
+
+      - name: Run API tests
+        run: npm run test:api
+
+      - name: Generate Allure HTML report
+        if: always()
+        run: npm run allure:generate
+
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload test results and attachments
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-allure-results
+          path: allure-results/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-allure-report
+          path: allure-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Publish Allure report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./allure-report
+          destination_dir: api
+          keep_files: true
