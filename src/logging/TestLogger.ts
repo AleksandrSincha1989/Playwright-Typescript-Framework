@@ -35,7 +35,10 @@ export class TestLogger {
   }
 
   private async enqueueWrite(line: string): Promise<void> {
-    this.writeChain = this.writeChain.then(() => appendFile(this.filePath, line));
+    this.writeChain = this.writeChain.then(async () => {
+      await mkdir(dirname(this.filePath), { recursive: true });
+      await appendFile(this.filePath, line);
+    });
     await this.writeChain;
   }
 

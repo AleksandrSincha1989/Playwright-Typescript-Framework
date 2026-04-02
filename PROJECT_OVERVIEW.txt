@@ -169,10 +169,15 @@ Important note:
 - Generates and opens the report in one step
 
 GitHub Actions
-- `.github/workflows/playwright-ci.yml` runs on `push` and `pull_request`
-- CI uses `npm ci`, installs the selected Playwright browser, runs `npm run typecheck`, cleans artifacts, runs `npm test`, and uploads generated reports
-- Uploaded artifacts are `playwright-report/`, `test-results/`, and `allure-results/`
-- Workflow defaults are safe for CI: `TEST_ENV=dev`, `TEST_BRAND=brandA`, `BROWSER=chromium`, `HEADLESS=true`, and `WORKERS=2`
+- `.github/workflows/ui-manual.yml` is a manual workflow for UI execution only
+- `.github/workflows/api-manual.yml` is a manual workflow for API execution only
+- Both workflows use `workflow_dispatch` and require `environment` and `brand` inputs
+- Both workflows can also accept `browser`, `headless`, and `workers`
+- UI workflow runs `npm run test:ui`
+- API workflow runs `npm run test:api`
+- Both workflows use `npm ci`, install the selected Playwright browser, run `npm run typecheck`, clean artifacts, generate Allure HTML, and upload generated reports
+- Uploaded artifacts are `playwright-report/`, `test-results/`, `allure-results/`, and generated `allure-report/`
+- Both workflows publish Allure HTML to the `gh-pages` branch in separate folders so UI and API reports do not overwrite each other
 - Optional `BASE_URL` and `API_BASE_URL` overrides can be passed later through GitHub variables without changing provider code
 
 7. Running Tests
@@ -198,7 +203,9 @@ Local vs CI:
 - Local default run uses `npm test`
 - Local explicit override example:
   `npx cross-env TEST_ENV=uat TEST_BRAND=brandA BROWSER=chromium HEADLESS=true WORKERS=2 playwright test`
-- GitHub Actions uses the same framework entry point and provider chain instead of separate CI-only config
+- GitHub Actions UI manual run maps workflow inputs to `TEST_ENV`, `TEST_BRAND`, `BROWSER`, `HEADLESS`, and `WORKERS`, then runs `npm run test:ui`
+- GitHub Actions API manual run maps workflow inputs to `TEST_ENV`, `TEST_BRAND`, `BROWSER`, `HEADLESS`, and `WORKERS`, then runs `npm run test:api`
+- GitHub Pages publishes UI Allure to `/ui/` and API Allure to `/api/`
 - If private systems are introduced later, credentials should come from GitHub Secrets rather than committed JSON files
 
 8. Important Framework Principles

@@ -145,22 +145,45 @@ npm run allure:generate
 npm run allure:open
 ```
 
-## CI/CD Intent
+## Manual GitHub Actions Workflows
 
-GitHub Actions workflow has been added at `.github/workflows/playwright-ci.yml`.
+The repository now uses two separate manual GitHub Actions workflows instead of a generic push or pull request pipeline:
 
-The workflow runs on `push` and `pull_request` and performs:
+- `.github/workflows/ui-manual.yml`
+- `.github/workflows/api-manual.yml`
 
-1. Install dependencies with `npm ci`
-2. Apply safe CI defaults for `TEST_ENV`, `TEST_BRAND`, `BROWSER`, `HEADLESS`, and `WORKERS`
-3. Optionally append `BASE_URL` and `API_BASE_URL` only when GitHub variables are defined
-4. Install the requested Playwright browser with `npx playwright install --with-deps`
-5. Run `npm run typecheck`
-6. Clean previous generated artifacts with `npm run clean`
-7. Run the suite with `npm test`
-8. Upload `playwright-report/`, `test-results/`, and `allure-results/` as GitHub Actions artifacts
+UI workflow:
 
-The workflow intentionally uses the existing provider chain and Playwright config without bypassing:
+- triggered manually from the GitHub Actions tab
+- runs only `tests/ui` through `npm run test:ui`
+- accepts required `environment` and `brand` inputs
+- also accepts `browser`, `headless`, and `workers`
+- uploads `playwright-report/`, `test-results/`, `allure-results/`, and generated `allure-report/`
+- publishes the generated Allure report to GitHub Pages under the `ui/` path on the `gh-pages` branch
+
+API workflow:
+
+- triggered manually from the GitHub Actions tab
+- runs only `tests/api` through `npm run test:api`
+- accepts required `environment` and `brand` inputs
+- also accepts `browser`, `headless`, and `workers`
+- uploads `playwright-report/`, `test-results/`, `allure-results/`, and generated `allure-report/`
+- publishes the generated Allure report to GitHub Pages under the `api/` path on the `gh-pages` branch
+
+Both workflows perform:
+
+1. `actions/checkout`
+2. `actions/setup-node` with Node.js 20
+3. `npm ci`
+4. optional `BASE_URL` and `API_BASE_URL` export from GitHub Variables when defined
+5. `npx playwright install --with-deps <browser>`
+6. `npm run typecheck`
+7. `npm run clean`
+8. subset test execution
+9. `npm run allure:generate`
+10. artifact upload and GitHub Pages publication
+
+The workflows intentionally use the existing provider chain and Playwright config without bypassing:
 
 - `TEST_ENV` and `TEST_BRAND` selection
 - `frameworkConfigProvider` URL and execution overrides
@@ -182,15 +205,16 @@ Local run with explicit overrides:
 npx cross-env TEST_ENV=uat TEST_BRAND=brandB BROWSER=chromium HEADLESS=true WORKERS=2 playwright test
 ```
 
-GitHub Actions CI run:
+GitHub Actions manual runs:
 
-- uses the same `npm test` entry point
-- defaults to `TEST_ENV=dev`, `TEST_BRAND=brandA`, `BROWSER=chromium`, `HEADLESS=true`, and `WORKERS=2`
-- can be extended later through GitHub repository or environment variables without changing framework architecture
+- UI workflow maps `environment` -> `TEST_ENV` and `brand` -> `TEST_BRAND`, then runs `npm run test:ui`
+- API workflow maps `environment` -> `TEST_ENV` and `brand` -> `TEST_BRAND`, then runs `npm run test:api`
+- both workflows can also pass `BROWSER`, `HEADLESS`, and `WORKERS`
+- local developer commands remain unchanged
 
 ## CI Variables And Overrides
 
-The workflow is ready for future GitHub Actions overrides through repository or environment `Variables` and `Secrets`.
+The workflows are ready for future GitHub Actions overrides through repository or environment `Variables` and `Secrets`.
 
 Supported runtime inputs already understood by the framework:
 
@@ -208,13 +232,20 @@ Recommended usage:
 - store any future private credentials in GitHub `Secrets`
 - store non-sensitive environment-specific overrides in GitHub `Variables`
 - avoid hardcoding secret values in workflow YAML
+- enable GitHub Pages from the `gh-pages` branch if Pages has not been configured yet
+
+GitHub Pages paths:
+
+- UI Allure report: `https://<owner>.github.io/<repo>/ui/`
+- API Allure report: `https://<owner>.github.io/<repo>/api/`
 
 ## Suggested Review Checklist Before First Push
 
 - Confirm no private credentials or tokens were added to config files
 - Confirm generated reports and local folders remain untracked
 - Confirm package metadata and repository name match your GitHub repository
-- Confirm CI defaults, browser choice, and worker count match your intended usage
+- Confirm manual workflow inputs match your intended environments and brands
+- Confirm GitHub Pages is enabled and permitted to publish from `gh-pages`
 
 ## Useful Commands
 
