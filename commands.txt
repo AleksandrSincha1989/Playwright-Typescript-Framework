@@ -1,0 +1,76 @@
+Playwright-Typescript-Framework Commands
+=======================================
+
+Local execution
+---------------
+Install dependencies:
+- `npm install`
+- `npx playwright install`
+
+Run all tests:
+- `npm test`
+
+Run UI tests only:
+- `npm run test:ui`
+
+Run API tests only:
+- `npm run test:api`
+
+Run headed:
+- `npm run test:headed`
+
+Run with environment and brand overrides:
+- `npx cross-env TEST_ENV=dev TEST_BRAND=brandA playwright test`
+- `npx cross-env TEST_ENV=uat TEST_BRAND=brandB BROWSER=chromium HEADLESS=true WORKERS=2 playwright test`
+
+Type validation:
+- `npm run typecheck`
+
+Cleanup:
+- `npm run clean`
+- `npm run clean:allure`
+
+Allure local report:
+- `npm run allure:generate`
+- `npm run allure:open`
+- `npm run allure:report`
+
+GitHub CI/CD
+------------
+Manual GitHub Actions workflows:
+- `.github/workflows/ui-manual.yml`
+- `.github/workflows/api-manual.yml`
+
+UI manual workflow:
+- Trigger from the GitHub Actions tab
+- Choose `environment` and `brand`
+- Optionally choose `browser`, `headless`, and `workers`
+- Runs only `npm run test:ui`
+- Uploads `playwright-report/`, `test-results/`, `allure-results/`, and generated `allure-report/`
+- Publishes Allure HTML to GitHub Pages under the `ui/` path on the `gh-pages` branch
+
+API manual workflow:
+- Trigger from the GitHub Actions tab
+- Choose `environment` and `brand`
+- Optionally choose `browser`, `headless`, and `workers`
+- Runs only `npm run test:api`
+- Uploads `playwright-report/`, `test-results/`, `allure-results/`, and generated `allure-report/`
+- Publishes Allure HTML to GitHub Pages under the `api/` path on the `gh-pages` branch
+
+Framework variable mapping in GitHub Actions:
+- `environment` input -> `TEST_ENV`
+- `brand` input -> `TEST_BRAND`
+- `browser` input -> `BROWSER`
+- `headless` input -> `HEADLESS`
+- `workers` input -> `WORKERS`
+
+Optional repository or environment variables:
+- `BASE_URL`
+- `API_BASE_URL`
+
+Important notes:
+- GitHub workflows preserve the current provider chain and do not bypass `frameworkConfigProvider`
+- Environment resolution still uses `environmentProvider`
+- Account loading and worker allocation still use `accountProvider`
+- Keep secrets out of workflow YAML and store them in GitHub Secrets if private environments are added later
+- Configure GitHub Pages to serve from the `gh-pages` branch if the repository has not enabled Pages yet
