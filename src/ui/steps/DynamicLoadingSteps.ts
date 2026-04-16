@@ -25,7 +25,6 @@ export class DynamicLoadingSteps {
   async startLoading(): Promise<void> {
     await test.step('Start dynamic loading', async () => {
       await this.dynamicLoadingPage.startButton.click();
-      await this.logger.log('Dynamic loading started');
     });
   }
 
@@ -33,7 +32,6 @@ export class DynamicLoadingSteps {
     await test.step('Verify Hello World appears after loading', async () => {
       await expect(this.dynamicLoadingPage.loadingIndicator).toBeHidden();
       await expect(this.dynamicLoadingPage.finishText).toHaveText('Hello World!');
-      await this.logger.log('Dynamic loading result verified');
     });
   }
 }

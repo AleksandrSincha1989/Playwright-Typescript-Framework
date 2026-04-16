@@ -18,21 +18,18 @@ export class DropdownSteps {
   async open(): Promise<void> {
     await test.step('Open dropdown page', async () => {
       await this.page.goto('/dropdown');
-      await this.logger.log('Opened dropdown page');
     });
   }
 
   async selectOption(optionLabel: 'Option 1' | 'Option 2'): Promise<void> {
     await test.step(`Select ${optionLabel} from the dropdown`, async () => {
       await this.dropdownPage.dropdown.selectOption({ label: optionLabel });
-      await this.logger.log('Dropdown option selected', { optionLabel });
     });
   }
 
   async shouldHaveSelectedOption(optionLabel: 'Option 1' | 'Option 2'): Promise<void> {
     await test.step(`Verify ${optionLabel} is selected`, async () => {
       await expect(this.dropdownPage.dropdown).toHaveValue(optionLabel === 'Option 1' ? '1' : '2');
-      await this.logger.log('Dropdown selection verified', { optionLabel });
     });
   }
 }

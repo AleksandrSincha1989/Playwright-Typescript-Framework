@@ -18,7 +18,6 @@ export class AddRemoveElementsSteps {
   async open(): Promise<void> {
     await test.step('Open add/remove elements page', async () => {
       await this.page.goto('/add_remove_elements/');
-      await this.logger.log('Opened add/remove elements page');
     });
   }
 
@@ -27,21 +26,39 @@ export class AddRemoveElementsSteps {
       for (let index = 0; index < count; index += 1) {
         await this.addRemoveElementsPage.addElementButton.click();
       }
-      await this.logger.log('Elements added', { count });
+      await this.logger.log('Elements added', {count});
     });
   }
 
   async removeElementAt(index: number): Promise<void> {
     await test.step(`Remove element at index ${index}`, async () => {
       await this.addRemoveElementsPage.deleteButtons.nth(index).click();
-      await this.logger.log('Element removed', { index });
+      await this.logger.log('Element removed', {index});
     });
   }
 
   async shouldHaveDeleteButtons(count: number): Promise<void> {
     await test.step(`Verify there are ${count} delete buttons`, async () => {
       await expect(this.addRemoveElementsPage.deleteButtons).toHaveCount(count);
-      await this.logger.log('Delete button count verified', { count });
+    });
+  }
+
+  async checkElementsButtonText(text: string) {
+    await test.step(`Check elements test ${text})`, async () => {
+      const count = await this.addRemoveElementsPage.deleteButtons.count();
+      for (let i = 0; i < count; i++){
+        await this.logger.log('Element = ', {i});
+        await expect(this.addRemoveElementsPage.deleteButtons.nth(i)).toHaveText(text)
+      }
+
+      const apps: string[] = ['Slack', 'Discord', 'Teams'];
+      for (const app of apps) {
+        await this.logger.log(app); // Выведет: 'Slack', 'Discord', 'Teams'
+      }
+      const user = { name: 'Alex', role: 'Admin', age: 30};
+      for (const key in user) {
+        await this.logger.log(user.role); // Выведет: 'name', 'role'
+      }
     });
   }
 }

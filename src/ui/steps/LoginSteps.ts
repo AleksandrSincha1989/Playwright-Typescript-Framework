@@ -77,7 +77,6 @@ export class LoginSteps {
   async shouldSeeSuccessfulLoginMessage(): Promise<void> {
     await test.step('Verify successful login message is displayed', async () => {
       await expect(this.loginPage.flashMessage).toContainText('You logged into a secure area!');
-      await this.logger.log('Successful login message verified');
     });
   }
 
@@ -85,7 +84,6 @@ export class LoginSteps {
     await test.step('Verify invalid username message is displayed', async () => {
       await expect(this.loginPage.flashMessage).toContainText('Your username is invalid!');
       await expect(this.loginPage.heading).toHaveText('Login Page');
-      await this.logger.log('Invalid username message verified');
     });
   }
 
@@ -93,7 +91,6 @@ export class LoginSteps {
     await test.step('Verify invalid password message is displayed', async () => {
       await expect(this.loginPage.flashMessage).toContainText('Your password is invalid!');
       await expect(this.loginPage.heading).toHaveText('Login Page');
-      await this.logger.log('Invalid password message verified');
     });
   }
 
@@ -101,7 +98,6 @@ export class LoginSteps {
     await test.step('Verify user remains on the login page', async () => {
       await expect(this.page).toHaveURL(/\/login$/);
       await expect(this.loginPage.loginButton).toBeVisible();
-      await this.logger.log('Login page remains open', { url: this.page.url() });
     });
   }
 }

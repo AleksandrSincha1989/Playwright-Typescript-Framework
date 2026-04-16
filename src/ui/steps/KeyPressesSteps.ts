@@ -18,21 +18,18 @@ export class KeyPressesSteps {
   async open(): Promise<void> {
     await test.step('Open key presses page', async () => {
       await this.page.goto('/key_presses');
-      await this.logger.log('Opened key presses page');
     });
   }
 
   async pressKey(key: string): Promise<void> {
     await test.step(`Press key ${key}`, async () => {
       await this.keyPressesPage.input.press(key);
-      await this.logger.log('Key pressed', { key });
     });
   }
 
   async shouldShowPressedKey(expectedKey: string): Promise<void> {
     await test.step(`Verify pressed key ${expectedKey} is displayed`, async () => {
       await expect(this.keyPressesPage.resultText).toHaveText(`You entered: ${expectedKey}`);
-      await this.logger.log('Pressed key result verified', { expectedKey });
     });
   }
 }

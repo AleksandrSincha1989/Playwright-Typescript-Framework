@@ -8,6 +8,6 @@ export class AddRemoveElementsPage extends BasePage {
   constructor(page: Page) {
     super(page);
     this.addElementButton = this.$('button[onclick="addElement()"]');
-    this.deleteButtons = this.$('.added-manually');
+    this.deleteButtons = this.$('button[class="added-manually"]');
   }
 }

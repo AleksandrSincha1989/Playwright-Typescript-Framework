@@ -127,6 +127,23 @@ The account files currently use the public demo credentials for `the-internet.he
 
 If this framework is reused against a private system, move real credentials out of committed JSON files and load them from a secure secret source in CI or from local overrides that are gitignored.
 
+This repository is intended to be safe for public GitHub hosting:
+
+- UI credentials are demo-only credentials from a public training site
+- API tests target the public `jsonplaceholder.typicode.com` demo API
+- no personal user data, private emails, API keys, or internal endpoints are required for the sample project
+- if you adapt this framework for a private system, replace committed account data with GitHub Secrets or local gitignored inputs
+
+## Public Repository Safety
+
+Public readiness review for this repository:
+
+- environment configs point only to public demo targets
+- account configs contain only demo credentials required by the sample login scenarios
+- GitHub Actions workflows do not hardcode secrets
+- generated artifacts, local env files, IDE folders, and local certificate files are gitignored
+- the npm package is marked `private`, which helps prevent accidental package publication even if the GitHub repository is public
+
 ## Reports and Artifacts
 
 Playwright generates HTML reports in `playwright-report/` and test artifacts in `test-results/`. Allure writes raw results to `allure-results/` and generated reports to `allure-report/`.
