@@ -94,6 +94,47 @@ jobs:
       - name: Run UI tests
         run: npm run test:ui
 
+      - name: Convert Allure results to analytics JSON
+        if: always()
+        shell: bash
+        run: |
+          if [ ! -d allure-results ]; then
+            echo "allure-results folder was not generated, skipping analytics conversion"
+            exit 0
+          fi
+
+          npm run allure:convert
+
+      - name: Send analytics results
+        if: always()
+        shell: bash
+        env:
+          ANALYTICS_API_URL: ${{ vars.ANALYTICS_API_URL }}
+          ANALYTICS_API_TOKEN: ${{ secrets.ANALYTICS_API_TOKEN }}
+        run: |
+          if [ ! -f normalized-run.json ]; then
+            echo "normalized-run.json was not generated, skipping analytics upload"
+            exit 0
+          fi
+
+          if [ -z "$ANALYTICS_API_URL" ]; then
+            echo "ANALYTICS_API_URL is not configured, skipping analytics upload"
+            exit 0
+          fi
+
+          if [ -n "$ANALYTICS_API_TOKEN" ]; then
+            curl --fail-with-body --retry 3 --retry-delay 5 \
+              -X POST "$ANALYTICS_API_URL" \
+              -H "Content-Type: application/json" \
+              -H "Authorization: Bearer $ANALYTICS_API_TOKEN" \
+              --data-binary @normalized-run.json
+          else
+            curl --fail-with-body --retry 3 --retry-delay 5 \
+              -X POST "$ANALYTICS_API_URL" \
+              -H "Content-Type: application/json" \
+              --data-binary @normalized-run.json
+          fi
+
       - name: Generate Allure HTML report
         if: always()
         run: npm run allure:generate

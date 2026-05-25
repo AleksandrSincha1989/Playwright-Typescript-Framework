@@ -48,7 +48,7 @@ export class AddRemoveElementsSteps {
       const count = await this.addRemoveElementsPage.deleteButtons.count();
       for (let i = 0; i < count; i++){
         await this.logger.log('Element = ', {i});
-        await expect(this.addRemoveElementsPage.deleteButtons.nth(i)).toHaveText('BROKEN_BUTTON_TEXT')
+        await expect(this.addRemoveElementsPage.deleteButtons.nth(i)).toHaveText(text)
       }
 
       const apps: string[] = ['Slack', 'Discord', 'Teams'];
