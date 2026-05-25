@@ -5,6 +5,7 @@ test-results/
 playwright-report/
 allure-results/
 allure-report/
+normalized-run.json
 .playwright-mcp/
 
 # Local environment overrides

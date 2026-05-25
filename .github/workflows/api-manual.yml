@@ -98,6 +98,8 @@ jobs:
         if: always()
         shell: bash
         run: |
+          rm -f normalized-run.json
+
           if [ ! -d allure-results ]; then
             echo "allure-results folder was not generated, skipping analytics conversion"
             exit 0
