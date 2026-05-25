@@ -16,7 +16,7 @@ type TestFixtures = {
 
 export const test = base.extend<TestFixtures, WorkerFixtures>({
   accountProvider: [
-    async ({}, use) => {
+    async (_fixtures, use) => {
       await use(accountProvider);
     },
     { scope: 'worker' }

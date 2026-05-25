@@ -15,17 +15,24 @@
     "test:browser:firefox": "cross-env PW_BROWSER=firefox playwright test",
     "test:browser:webkit": "cross-env PW_BROWSER=webkit playwright test",
     "typecheck": "tsc --noEmit",
+    "allure:convert": "node scripts/convert-allure-results.js ./allure-results ./normalized-run.json",
     "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
     "allure:open": "allure open ./allure-report",
-    "allure:report": "npm run allure:generate && npm run allure:open"
+    "allure:report": "npm run allure:generate && npm run allure:open",
+    "lint": "eslint ."
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^9.9.0",
     "@playwright/test": "^1.54.2",
     "@types/node": "^24.3.0",
     "allure-commandline": "^2.34.1",
     "allure-playwright": "^3.4.1",
     "cross-env": "^10.0.0",
-    "typescript": "^5.9.2"
+    "eslint": "^10.4.0",
+    "globals": "^17.6.0",
+    "jiti": "^2.7.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.59.4"
   }
 }

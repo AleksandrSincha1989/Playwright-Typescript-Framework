@@ -33,7 +33,7 @@ function readJsonObject(filePath: string, configName: string): Record<string, un
     parsedConfig = JSON.parse(readFileSync(filePath, 'utf8')) as unknown;
   } catch (error) {
     if (error instanceof SyntaxError) {
-      throw new Error(`Failed to parse ${configName} config "${filePath}": ${error.message}`);
+      throw new Error(`Failed to parse ${configName} config "${filePath}": ${error.message}`, { cause: error });
     }
 
     throw error;

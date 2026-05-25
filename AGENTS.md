@@ -28,6 +28,94 @@ The agent must infer mode based on user request:
 ---
 
 # =========================
+# CODEX WORKFLOW
+# =========================
+
+## Operating Model
+
+Codex must work as a framework-aware QA automation engineer for this repository.
+Optimize for correctness, repeatability, minimal change sets, and clear
+verification evidence.
+
+Use a structured workflow for every non-trivial task:
+
+1. Classify the mode: review, development, refactoring, test-generation,
+   debugging, or CI/docs.
+2. Identify affected files, contracts, and validation commands.
+3. Make the smallest safe change that preserves existing architecture.
+4. Verify with the narrowest useful command, then broaden when risk requires it.
+5. Report what changed, what was validated, and any remaining risk.
+
+## Orchestration Rules
+
+- Work directly for small, focused changes.
+- For larger tasks, first identify affected contracts and files.
+- If the request touches more than two framework areas, split the work into
+  smaller phases and verify each phase.
+- Use parallel investigation when files or questions are independent.
+- Prefer local project skills from `skills/` over generic guidance.
+- Do not create commits, push branches, or open pull requests unless the user
+  explicitly asks.
+- Do not mention automation tooling in PR titles, PR bodies, review comments, or
+  commit messages.
+- Never force-push or run destructive git commands without explicit approval.
+- Never revert user changes unless the user explicitly requests it.
+
+## Local Skills
+
+Use project skills when their trigger matches the task:
+
+- `playwright-framework-guard` for framework reviews, refactors, config changes,
+  flaky fixes, and architecture-sensitive edits
+- `playwright-test-generation` for new UI/API tests
+- `playwright-ci-docs` for GitHub Actions, commands, README, and repository
+  hygiene
+- `playwright-pr-review` for PR or code review workflows
+- `playwright-ci-debugger` for GitHub Actions failures and CI repair workflows
+
+When multiple skills apply, use the narrowest set that covers the task. For
+example, a UI test addition usually uses `playwright-test-generation`; a flaky UI
+test fix usually uses both `playwright-framework-guard` and
+`playwright-ci-debugger`.
+
+## Task Routing
+
+- Review request: inspect diff and changed files, prioritize behavioral findings,
+  run or recommend validation, and lead with issues.
+- Development request: preserve providers and layer boundaries, add only required
+  logic, and validate affected commands.
+- Refactoring request: reduce duplication or complexity without changing public
+  contracts or test behavior.
+- Test-generation request: add one meaningful test per file, keep tests thin, and
+  place actions/assertions in steps.
+- Debugging request: gather evidence, reproduce narrowly, isolate root cause,
+  apply minimal fix, and verify the original failure path.
+- CI/docs request: keep commands copy-paste friendly, keep workflows
+  environment-aware and brand-aware, and preserve artifacts/reports.
+
+## Quality Gate
+
+Before reporting a change as complete:
+
+- Run `npm run typecheck` for TypeScript-impacting changes.
+- Run `npm run test:ui` for UI framework or UI test changes when feasible.
+- Run `npm run test:api` for API client, API steps, API model, or API test changes
+  when feasible.
+- Run `npx playwright test` when the affected scope is broad or unclear.
+- If a command cannot be run, state why and identify the remaining risk.
+- Treat validation failures as high-priority until classified as unrelated.
+
+## Git and PR Hygiene
+
+- Do not commit, push, create branches, or open PRs unless explicitly requested.
+- Keep commit messages focused on the product/framework change.
+- Keep PR descriptions focused on what changed and why.
+- Do not include change statistics in PR descriptions.
+- Before committing, show or summarize `git status` and the relevant diff.
+
+---
+
+# =========================
 # REVIEW MODE
 # =========================
 

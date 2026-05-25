@@ -57,7 +57,7 @@ export class AddRemoveElementsSteps {
       }
       const user = { name: 'Alex', role: 'Admin', age: 30};
       for (const key in user) {
-        await this.logger.log(user.role); // Выведет: 'name', 'role'
+        await this.logger.log(String(user[key as keyof typeof user]));
       }
     });
   }

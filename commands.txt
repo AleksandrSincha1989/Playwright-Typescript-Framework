@@ -74,3 +74,31 @@ Important notes:
 - Account loading and worker allocation still use `accountProvider`
 - Keep secrets out of workflow YAML and store them in GitHub Secrets if private environments are added later
 - Configure GitHub Pages to serve from the `gh-pages` branch if the repository has not enabled Pages yet
+
+Codex workflows
+---------------
+Use these local project skills when working with Codex:
+
+- `playwright-framework-guard` for framework-sensitive changes and reviews
+- `playwright-test-generation` for new UI or API tests
+- `playwright-ci-docs` for workflows, commands, README, and repository hygiene
+- `playwright-pr-review` for PR or local diff review
+- `playwright-ci-debugger` for CI failures and workflow debugging
+
+Recommended review validation:
+- `npm run typecheck`
+- `npm run test:ui`
+- `npm run test:api`
+
+Recommended CI debugging flow:
+- Identify the failed GitHub Actions step or local command
+- Read the first meaningful error
+- Reproduce locally with the narrowest command
+- Fix the root cause only
+- Re-run the narrow command, then the affected suite
+
+Useful GitHub CLI commands when authenticated:
+- `gh pr checks <number> --repo <owner>/<repo>`
+- `gh run list --branch <branch> --repo <owner>/<repo> --limit 5`
+- `gh run view <run-id> --repo <owner>/<repo> --json jobs`
+- `gh run view <run-id> --repo <owner>/<repo> --log-failed`
