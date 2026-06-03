@@ -5,14 +5,14 @@ const path = require('node:path');
  * Converts Allure *-result.json files into a normalized analytics payload.
  *
  * Usage:
- *   node scripts/convert-allure-results.js <inputFolder> <outputFile>
+ *   node scripts/convert-allure-results.js <inputFolder> <outputFile> [environment] [browser] [brand]
  *
  * Example:
- *   node scripts/convert-allure-results.js ./allure-results ./normalized-run.json
+ *   node scripts/convert-allure-results.js ./allure-results ./normalized-run.json uat webkit MyBrand
  */
 
 function printUsage() {
-  console.error('Usage: node scripts/convert-allure-results.js <inputFolder> <outputFile>');
+  console.error('Usage: node scripts/convert-allure-results.js <inputFolder> <outputFile> [environment] [browser] [brand]');
 }
 
 function warn(message) {
@@ -90,7 +90,7 @@ function ensureOutputDirectory(outputFile) {
   fs.mkdirSync(outputDirectory, { recursive: true });
 }
 
-function convertAllureResults(inputFolder, outputFile) {
+function convertAllureResults(inputFolder, outputFile, metadata) {
   validateInputFolder(inputFolder);
 
   const resultFiles = fs
@@ -119,7 +119,10 @@ function convertAllureResults(inputFolder, outputFile) {
     results.push(normalizedResult);
   }
 
-  const payload = { results };
+  const payload = {
+    metadata,
+    results
+  };
 
   ensureOutputDirectory(outputFile);
   fs.writeFileSync(outputFile, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
@@ -127,6 +130,7 @@ function convertAllureResults(inputFolder, outputFile) {
   return {
     inputFolder,
     outputFile,
+    metadata,
     totalResultFiles: resultFiles.length,
     totalExported: results.length,
     totalSkipped: skippedFiles
@@ -137,13 +141,16 @@ function printSummary(summary) {
   console.log('Allure results converted.');
   console.log(`Input folder: ${summary.inputFolder}`);
   console.log(`Output file: ${summary.outputFile}`);
+  console.log(`Environment: ${summary.metadata.environment || '(none)'}`);
+  console.log(`Browser: ${summary.metadata.browser || '(none)'}`);
+  console.log(`Brand: ${summary.metadata.brand || '(none)'}`);
   console.log(`Total *-result.json files found: ${summary.totalResultFiles}`);
   console.log(`Total results exported: ${summary.totalExported}`);
   console.log(`Total skipped files: ${summary.totalSkipped}`);
 }
 
 function main() {
-  const [, , inputArg, outputArg] = process.argv;
+  const [, , inputArg, outputArg, environment = null, browser = null, brand = null] = process.argv;
 
   if (!inputArg || !outputArg) {
     printUsage();
@@ -152,7 +159,8 @@ function main() {
 
   const inputFolder = path.resolve(process.cwd(), inputArg);
   const outputFile = path.resolve(process.cwd(), outputArg);
-  const summary = convertAllureResults(inputFolder, outputFile);
+  const metadata = { environment, browser, brand };
+  const summary = convertAllureResults(inputFolder, outputFile, metadata);
 
   printSummary(summary);
 }

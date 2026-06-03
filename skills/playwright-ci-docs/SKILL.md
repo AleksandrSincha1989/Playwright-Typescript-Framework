@@ -1,6 +1,6 @@
 ---
 name: playwright-ci-docs
-description: Maintain GitHub Actions, commands.txt, README, PROJECT_OVERVIEW, .gitignore, repository hygiene, Allure/Playwright artifacts, GitHub Pages reporting, and copy-paste friendly developer documentation for this Playwright TypeScript framework.
+description: Maintain GitHub Actions, README, .gitignore, repository hygiene, Allure/Playwright artifacts, GitHub Pages reporting, and copy-paste friendly developer documentation for this Playwright TypeScript framework.
 ---
 
 This project is intended to be safe, maintainable, and ready for GitHub usage.
@@ -22,7 +22,7 @@ CI/CD rules:
 
 Documentation rules:
 
-- commands.txt must be copy-paste friendly.
+- README examples must be copy-paste friendly.
 - Commands should be Windows PowerShell friendly unless explicitly requested otherwise.
 - Explanations should be concise but clear.
 - Keep documentation aligned with the actual current project structure and behavior.

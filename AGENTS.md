@@ -355,7 +355,7 @@ DO NOT:
 
 - Do NOT break:
     - GitHub Actions workflows
-    - commands.txt
+    - README.md
 
 - Ensure:
     - tests run headless in CI
