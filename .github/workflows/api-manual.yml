@@ -19,23 +19,7 @@ on:
           - brandA
           - brandB
         default: brandA
-      browser:
-        description: Browser for Playwright execution
-        required: true
-        type: choice
-        options:
-          - chromium
-          - firefox
-          - webkit
-        default: chromium
-      headless:
-        description: Run browser in headless mode
-        required: true
-        type: choice
-        options:
-          - "true"
-          - "false"
-        default: "true"
+
       workers:
         description: Parallel worker count
         required: true
@@ -55,8 +39,8 @@ jobs:
     env:
       TEST_ENV: ${{ inputs.environment }}
       TEST_BRAND: ${{ inputs.brand }}
-      BROWSER: ${{ inputs.browser }}
-      HEADLESS: ${{ inputs.headless }}
+      BROWSER: chromium
+      HEADLESS: "true"
       WORKERS: ${{ inputs.workers }}
 
     steps:

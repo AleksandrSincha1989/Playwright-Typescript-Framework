@@ -265,7 +265,15 @@ The repository contains two manual workflows:
 - `.github/workflows/ui-manual.yml`
 - `.github/workflows/api-manual.yml`
 
-Both workflows use `workflow_dispatch` and require:
+Both workflows use `workflow_dispatch`.
+
+API workflow inputs:
+
+- `environment`
+- `brand`
+- `workers`
+
+UI workflow inputs:
 
 - `environment`
 - `brand`
@@ -273,7 +281,20 @@ Both workflows use `workflow_dispatch` and require:
 - `headless`
 - `workers`
 
-Workflow input mapping:
+API workflow input mapping:
+
+- `environment` -> `TEST_ENV`
+- `brand` -> `TEST_BRAND`
+- `workers` -> `WORKERS`
+
+API workflow uses fixed execution defaults for Playwright internals:
+
+- `BROWSER=chromium`
+- `HEADLESS=true`
+
+API analytics metadata always uses `browser=api`.
+
+UI workflow input mapping:
 
 - `environment` -> `TEST_ENV`
 - `brand` -> `TEST_BRAND`
@@ -329,7 +350,7 @@ Local usage:
 
 CI usage:
 
-- CI runs are intended to stay headless by passing `headless=true`.
+- UI CI runs can choose `headless=true`; API CI runs use fixed `HEADLESS=true`.
 - CI keeps the same provider chain as local runs and does not bypass `environmentProvider`, `accountProvider`, or `frameworkConfigProvider`.
 - UI and API workflows are separate so their suites, artifacts, and GitHub Pages destinations do not overwrite each other.
 
