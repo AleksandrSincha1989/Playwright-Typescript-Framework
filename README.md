@@ -292,7 +292,7 @@ Both workflows perform:
 7. `npm run clean`
 8. suite execution through `npm run test:ui` or `npm run test:api`
 9. `npm run allure:convert` when `allure-results/` exists
-10. optional analytics upload when `ANALYTICS_API_URL` is configured
+10. optional analytics upload when `ANALYTICS_IMPORT_URL` is configured
 11. `npm run allure:generate`
 12. artifact upload
 13. Allure publication to GitHub Pages
@@ -316,7 +316,7 @@ GitHub Pages URLs:
 
 Optional CI variables and secrets:
 
-- Variables: `BASE_URL`, `API_BASE_URL`, `ANALYTICS_API_URL`
+- Variables: `BASE_URL`, `API_BASE_URL`, `ANALYTICS_IMPORT_URL`
 - Secret: `ANALYTICS_API_TOKEN`
 
 ## Local vs CI Behavior
