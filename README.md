@@ -314,9 +314,10 @@ Both workflows perform:
 8. suite execution through `npm run test:ui` or `npm run test:api`
 9. `npm run allure:convert` when `allure-results/` exists
 10. optional analytics upload when `ANALYTICS_IMPORT_URL` is configured
-11. `npm run allure:generate`
-12. artifact upload
-13. Allure publication to GitHub Pages
+11. previous Allure history restore from the matching GitHub Pages report path
+12. `npm run allure:generate`
+13. artifact upload
+14. Allure publication to GitHub Pages
 
 Artifacts uploaded with `if: always()`:
 
@@ -329,6 +330,7 @@ GitHub Pages publication:
 
 - UI workflow publishes to `/ui/` on the `gh-pages` branch
 - API workflow publishes to `/api/` on the `gh-pages` branch
+- each workflow restores only its own previous Allure `history/` folder before generating the next report, so UI and API trends remain separate
 
 GitHub Pages URLs:
 

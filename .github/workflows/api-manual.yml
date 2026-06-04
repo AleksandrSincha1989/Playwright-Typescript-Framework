@@ -120,6 +120,25 @@ jobs:
             -H "X-Import-Token: $ANALYTICS_API_TOKEN" \
             --data-binary @normalized-run.json
 
+      - name: Checkout previous GitHub Pages report
+        if: always()
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Restore Allure history
+        if: always()
+        shell: bash
+        run: |
+          if [ -d gh-pages/api/history ]; then
+            mkdir -p allure-results/history
+            cp -r gh-pages/api/history/. allure-results/history/
+          else
+            echo "No previous API Allure history found"
+          fi
+
       - name: Generate Allure HTML report
         if: always()
         run: npm run allure:generate
