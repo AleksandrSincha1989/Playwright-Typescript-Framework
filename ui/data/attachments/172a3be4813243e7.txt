@@ -1,0 +1,26 @@
+[2026-06-04T15:37:44.863Z] [INFO] Test started {
+  title: 'Should log out after a successful login and show a confirmation message',
+  workerIndex: 0,
+  parallelIndex: 0,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/auth/logout-after-login.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-06-04T15:37:44.865Z] [INFO] Opening login page
+[2026-06-04T15:37:44.994Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.017Z] [INFO] Using assigned worker account { username: 'tomsmith' }
+[2026-06-04T15:37:45.018Z] [DEBUG] Submitting credentials { username: 'tomsmith', passwordLength: 20 }
+[2026-06-04T15:37:45.117Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.174Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.177Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.177Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.195Z] [INFO] Secure area page is open { url: 'https://the-internet.herokuapp.com/secure' }
+[2026-06-04T15:37:45.228Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.270Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.270Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.270Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.271Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.272Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.284Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 451 }

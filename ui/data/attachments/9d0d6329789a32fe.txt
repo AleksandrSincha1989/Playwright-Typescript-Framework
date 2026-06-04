@@ -1,0 +1,13 @@
+[2026-06-04T15:37:45.075Z] [INFO] Test started {
+  title: 'Should update checkbox states to match a chosen preference',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/checkboxes/checkboxes-toggle-preferences.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-06-04T15:37:45.210Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.322Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.374Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 330 }

@@ -1,0 +1,17 @@
+[2026-06-04T15:37:44.409Z] [INFO] Test started {
+  title: 'Should show a clear error when logging in with an invalid username',
+  workerIndex: 0,
+  parallelIndex: 0,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/auth/login-invalid-username.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-06-04T15:37:44.414Z] [INFO] Opening login page
+[2026-06-04T15:37:44.539Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:44.565Z] [DEBUG] Submitting credentials { username: 'invalid-user', passwordLength: 20 }
+[2026-06-04T15:37:44.719Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:44.723Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:44.723Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:44.747Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 365 }

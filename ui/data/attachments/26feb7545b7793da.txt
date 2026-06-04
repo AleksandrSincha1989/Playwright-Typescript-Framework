@@ -1,0 +1,14 @@
+[2026-06-04T15:37:45.504Z] [INFO] Test started {
+  title: 'Should show loaded content only after the async action completes',
+  workerIndex: 1,
+  parallelIndex: 1,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/dynamic-loading/dynamic-loading-hello-world.spec.ts',
+  environment: 'dev',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-06-04T15:37:45.634Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:45.644Z] [INFO] Opened dynamic loading example 2
+[2026-06-04T15:37:45.715Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T15:37:51.585Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 6114 }
