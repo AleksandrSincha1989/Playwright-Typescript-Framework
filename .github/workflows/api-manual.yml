@@ -19,23 +19,6 @@ on:
           - brandA
           - brandB
         default: brandA
-      browser:
-        description: Browser for Playwright execution
-        required: true
-        type: choice
-        options:
-          - chromium
-          - firefox
-          - webkit
-        default: chromium
-      headless:
-        description: Run browser in headless mode
-        required: true
-        type: choice
-        options:
-          - "true"
-          - "false"
-        default: "true"
       workers:
         description: Parallel worker count
         required: true
@@ -55,8 +38,6 @@ jobs:
     env:
       TEST_ENV: ${{ inputs.environment }}
       TEST_BRAND: ${{ inputs.brand }}
-      BROWSER: ${{ inputs.browser }}
-      HEADLESS: ${{ inputs.headless }}
       WORKERS: ${{ inputs.workers }}
 
     steps:
@@ -82,9 +63,6 @@ jobs:
             echo "API_BASE_URL=${{ vars.API_BASE_URL }}" >> "$GITHUB_ENV"
           fi
 
-      - name: Install Playwright browser
-        run: npx playwright install --with-deps ${{ env.BROWSER }}
-
       - name: Validate TypeScript
         run: npm run typecheck
 
@@ -105,14 +83,14 @@ jobs:
             exit 0
           fi
 
-          npm run allure:convert -- "$TEST_ENV" "$BROWSER" "$TEST_BRAND"
+          npm run allure:convert -- "$TEST_ENV" "api" "$TEST_BRAND"
 
       - name: Send analytics results
         if: always()
         continue-on-error: true
         shell: bash
         env:
-          ANALYTICS_API_URL: ${{ vars.ANALYTICS_API_URL }}
+          ANALYTICS_IMPORT_URL: ${{ vars.ANALYTICS_IMPORT_URL }}
           ANALYTICS_API_TOKEN: ${{ secrets.ANALYTICS_API_TOKEN }}
         run: |
           if [ ! -f normalized-run.json ]; then
@@ -120,20 +98,20 @@ jobs:
             exit 0
           fi
 
-          if [ -z "$ANALYTICS_API_URL" ]; then
-            echo "ANALYTICS_API_URL is not configured, skipping analytics upload"
+          if [ -z "$ANALYTICS_IMPORT_URL" ]; then
+            echo "ANALYTICS_IMPORT_URL is not configured, skipping analytics upload"
             exit 0
           fi
 
           if [ -n "$ANALYTICS_API_TOKEN" ]; then
             curl --fail-with-body --retry 3 --retry-delay 5 \
-              -X POST "$ANALYTICS_API_URL" \
+              -X POST "$ANALYTICS_IMPORT_URL" \
               -H "Content-Type: application/json" \
               -H "X-Import-Token: $ANALYTICS_API_TOKEN" \
               --data-binary @normalized-run.json
           else
             curl --fail-with-body --retry 3 --retry-delay 5 \
-              -X POST "$ANALYTICS_API_URL" \
+              -X POST "$ANALYTICS_IMPORT_URL" \
               -H "Content-Type: application/json" \
               --data-binary @normalized-run.json
           fi
