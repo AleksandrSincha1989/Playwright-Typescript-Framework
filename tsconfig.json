@@ -8,6 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "noImplicitAny": true,
     "types": [
       "node",
       "@playwright/test"

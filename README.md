@@ -1,48 +1,40 @@
-# Playwright-Typescript-Framework
+# Playwright TypeScript Framework
 
-`Playwright-Typescript-Framework` is a Playwright and TypeScript QA automation framework for browser-based UI scenarios against `the-internet.herokuapp.com`, API scenarios against `jsonplaceholder.typicode.com`, and centralized environment, brand, and account selection through configuration providers.
+Playwright TypeScript Framework is a sample QA automation project for UI and API testing with centralized runtime configuration, worker-safe account allocation, and CI-friendly reporting.
+
+Current demo targets:
+
+- UI: `https://the-internet.herokuapp.com`
+- API: `https://jsonplaceholder.typicode.com`
+
+The framework is built to keep UI, API, configuration, fixtures, and reporting concerns separated while still being simple to run locally or from GitHub Actions.
+
+## What This Repository Includes
+
+- Playwright UI tests organized by feature
+- Playwright API tests using `APIRequestContext`
+- Environment and brand based configuration via providers
+- Worker-safe account allocation for parallel runs
+- Shared fixtures, logging, and attachments
+- Playwright HTML and Allure reporting
+- Manual GitHub Actions workflows for UI and API runs
+- Optional Allure analytics export from CI
 
 ## Tech Stack
 
 - TypeScript
-- Playwright Test
-- Playwright API testing via `APIRequestContext`
-- Allure reporting
-- `cross-env` for cross-platform command support
-
-## What Is Included
-
-- UI automation using page objects and step classes
-- API tests with a small client/steps layer
-- Environment and brand based runtime configuration
-- Worker-aware account allocation for parallel execution
-- HTML and Allure report generation
-
-## Project Structure
-
-```text
-config/
-  accounts/        brand and environment specific account sets
-  environments/    base URLs for UI and API targets
-src/
-  api/             API client, models, and reusable API steps
-  config/          framework configuration providers
-  fixtures/        shared Playwright fixtures
-  logging/         test logging helpers
-  ui/              page objects and UI step classes
-tests/
-  api/             API specs
-  ui/              UI specs
-scripts/
-  clean.js         generated artifact cleanup
-```
+- `@playwright/test`
+- `allure-playwright`
+- `allure-commandline`
+- `cross-env`
+- `@faker-js/faker`
 
 ## Prerequisites
 
-- Node.js 18+ recommended
+- Node.js 18 or newer
 - npm
-- Playwright browsers installed
-- Java installed locally if you want to generate or open Allure reports
+- Playwright browsers installed locally
+- Java installed locally if you want to open Allure reports
 
 ## Installation
 
@@ -51,209 +43,342 @@ npm install
 npx playwright install
 ```
 
-## Running UI Tests
-
-Run the full UI suite:
+## Quick Commands
 
 ```bash
+npm test
 npm run test:ui
-```
-
-Run headed:
-
-```bash
-npm run test:headed
-```
-
-Run with explicit environment and brand:
-
-```bash
-npx cross-env TEST_ENV=dev TEST_BRAND=brandA playwright test tests/ui
-```
-
-Run smoke or tagged subsets:
-
-```bash
-npx playwright test tests/ui --grep "@smoke"
-npx playwright test tests/ui --grep "@TMS-1001"
-```
-
-## Running API Tests
-
-Run the full API suite:
-
-```bash
 npm run test:api
+npm run test:headed
+npm run typecheck
+npm run lint
+npm run clean
+npm run clean:allure
+npm run allure:generate
+npm run allure:open
+npm run allure:report
+npx cross-env TEST_ENV=dev TEST_BRAND=brandA playwright test
+npx cross-env TEST_ENV=dev TEST_BRAND=brandA playwright test tests/ui
+npx cross-env TEST_ENV=uat TEST_BRAND=brandB BROWSER=chromium HEADLESS=true WORKERS=2 playwright test
 ```
 
-Run with explicit environment and brand:
+## Project Structure
 
-```bash
-npx cross-env TEST_ENV=uat TEST_BRAND=brandB playwright test tests/api
+```text
+config/
+  accounts/        account pools and named accounts per env and brand
+  environments/    UI and API base URLs per env and brand
+.github/workflows/
+  ui-manual.yml    manual UI workflow
+  api-manual.yml   manual API workflow
+scripts/
+  clean.js                         artifact cleanup
+  convert-allure-results.js        Allure analytics normalization
+src/
+  api/
+    client/        low-level API request layer
+    models/        API request and response types
+    steps/         reusable API flows and assertions
+  common/
+    factories/     test data factories
+  config/          environment, account, and framework config providers
+  fixtures/        shared Playwright fixtures
+  logging/         per-test logging helpers
+  test-data/       static files used by tests
+  ui/
+    pages/         page objects and selectors
+    steps/         UI flows and assertions
+tests/
+  api/             API specs
+  ui/              UI specs
 ```
 
-Run tagged API subsets:
+## Architecture Summary
 
-```bash
-npx playwright test --grep "@API"
-```
+### UI Layer
+
+- `src/ui/pages` contains page objects and locators only.
+- `src/ui/steps` contains reusable actions and assertions.
+- `tests/ui` should stay thin and orchestrate steps rather than embedding framework logic.
+
+### API Layer
+
+- `src/api/client` owns HTTP request details.
+- `src/api/steps` wraps API flows and assertions.
+- `src/api/models` holds request and response types where useful.
+- `tests/api` should stay thin and focus on scenario intent.
+
+### Configuration Layer
+
+- `src/config/environmentProvider.ts` resolves `config/environments/<env>/<brand>.json`.
+- `src/config/accountProvider.ts` resolves `config/accounts/<env>/<brand>.json`.
+- `src/config/frameworkConfigProvider.ts` is the single entry point for runtime configuration.
+- Tests and helpers should use providers and `frameworkConfig`, not read JSON directly.
+
+### Fixture and Logging Layer
+
+- `src/fixtures/test-fixtures.ts` extends Playwright fixtures with account access, logging, and browser console capture.
+- `src/logging/TestLogger.ts` writes per-test logs and attaches them to Playwright results.
+- Screenshots are captured only on failure, and traces are kept on first retry.
 
 ## Configuration Model
 
-Framework configuration is assembled in `src/config/frameworkConfigProvider.ts`. Tests and helpers should use that provider chain instead of reading JSON files directly.
+Runtime selection is based on environment and brand:
 
-Selection inputs:
-
-- `TEST_ENV` selects the environment folder, such as `dev` or `uat`
-- `TEST_BRAND` selects the brand file inside the environment folder
+- `TEST_ENV` selects the environment folder, for example `dev` or `uat`
+- `TEST_BRAND` selects the brand file, for example `brandA` or `brandB`
 
 Resolved files:
 
 - `config/environments/<env>/<brand>.json`
 - `config/accounts/<env>/<brand>.json`
 
-Supported overrides:
+Default selection:
 
-- `BASE_URL` or `PW_BASE_URL` for UI base URL
-- `API_BASE_URL` for API base URL
-- `BROWSER` or `PW_BROWSER` for browser choice
-- `HEADLESS` or `PW_HEADLESS` for headless mode
-- `WORKERS` or `PW_WORKERS` for worker count
-- `PW_SLOW_MO`, `PW_DEFAULT_TIMEOUT`, `PW_VIEWPORT_WIDTH`, `PW_VIEWPORT_HEIGHT` for execution tuning
+- `TEST_ENV=dev`
+- `TEST_BRAND=brandA`
 
-## Accounts and Test Data
+Supported runtime overrides:
 
-The account files currently use the public demo credentials for `the-internet.herokuapp.com`. Those credentials are intentionally kept because they are required for the sample login scenarios and are safe for a public demo project.
+- `BASE_URL` or `PW_BASE_URL`
+- `API_BASE_URL`
+- `BROWSER` or `PW_BROWSER`
+- `HEADLESS` or `PW_HEADLESS`
+- `WORKERS` or `PW_WORKERS`
+- `PW_SLOW_MO`
+- `PW_DEFAULT_TIMEOUT`
+- `PW_VIEWPORT_WIDTH`
+- `PW_VIEWPORT_HEIGHT`
 
-If this framework is reused against a private system, move real credentials out of committed JSON files and load them from a secure secret source in CI or from local overrides that are gitignored.
+Supported browsers:
 
-## Reports and Artifacts
+- `chromium`
+- `firefox`
+- `webkit`
 
-Playwright generates HTML reports in `playwright-report/` and test artifacts in `test-results/`. Allure writes raw results to `allure-results/` and generated reports to `allure-report/`.
+Behavioral notes:
 
-These folders are intentionally gitignored and can be cleaned with:
+- Browser defaults to `chromium`.
+- Headless defaults to `false` locally unless overridden.
+- Workers default to `2`.
+- The account provider validates that the default account pool is large enough for the requested worker count.
+
+## Accounts and Parallel Execution
+
+Account files contain two groups:
+
+- `default`: the worker pool used for parallel execution
+- `named`: explicitly addressable accounts for tests that need a specific persona
+
+Worker allocation rules:
+
+- Each worker receives its account from the `default` pool using `workerIndex`.
+- Worker pool validation fails fast if configured workers exceed available default accounts.
+- Named accounts are retrieved by key and produce a clear error if the name is missing.
+
+This model avoids shared mutable state and keeps parallel account usage deterministic.
+
+## Running Tests
+
+Run the full suite:
+
+```bash
+npm test
+```
+
+Run UI tests only:
+
+```bash
+npm run test:ui
+npx cross-env TEST_ENV=dev TEST_BRAND=brandA playwright test tests/ui
+```
+
+Run API tests only:
+
+```bash
+npm run test:api
+npx cross-env TEST_ENV=uat TEST_BRAND=brandB playwright test tests/api
+```
+
+Run with browser, headless, and worker overrides:
+
+```bash
+npx cross-env TEST_ENV=uat TEST_BRAND=brandB BROWSER=chromium HEADLESS=true WORKERS=2 playwright test
+```
+
+Run tagged subsets:
+
+```bash
+npx playwright test tests/ui --grep "@TMS-1001"
+npx playwright test --grep "@API"
+npx playwright test --grep "@TMS-1008|@TMS-1010"
+```
+
+Run validation commands:
+
+```bash
+npm run typecheck
+npm run lint
+```
+
+## Playwright and Reporting Behavior
+
+Playwright is configured in `playwright.config.ts` to:
+
+- run fully parallel
+- use worker count from `frameworkConfig`
+- use base URL, browser, headless mode, viewport, and timeouts from `frameworkConfig`
+- keep screenshots `only-on-failure`
+- keep trace `on-first-retry`
+- disable video
+
+Generated outputs:
+
+- `playwright-report/`: Playwright HTML report
+- `test-results/`: Playwright attachments and test artifacts
+- `allure-results/`: raw Allure result files
+- `allure-report/`: generated Allure HTML
+- `normalized-run.json`: normalized analytics payload generated from Allure results
+
+Cleanup commands:
 
 ```bash
 npm run clean
 npm run clean:allure
 ```
 
-Generate or open Allure reports locally:
+Allure commands:
 
 ```bash
 npm run allure:generate
 npm run allure:open
+npm run allure:report
+npm run allure:convert
 ```
 
-## Manual GitHub Actions Workflows
+`npm run allure:convert` calls `scripts/convert-allure-results.js` and converts Allure `*-result.json` files into a normalized JSON payload for analytics upload.
 
-The repository now uses two separate manual GitHub Actions workflows instead of a generic push or pull request pipeline:
+## GitHub Actions Workflows
+
+The repository contains two manual workflows:
 
 - `.github/workflows/ui-manual.yml`
 - `.github/workflows/api-manual.yml`
 
-UI workflow:
+Both workflows use `workflow_dispatch` and require:
 
-- triggered manually from the GitHub Actions tab
-- runs only `tests/ui` through `npm run test:ui`
-- accepts required `environment` and `brand` inputs
-- also accepts `browser`, `headless`, and `workers`
-- uploads `playwright-report/`, `test-results/`, `allure-results/`, and generated `allure-report/`
-- publishes the generated Allure report to GitHub Pages under the `ui/` path on the `gh-pages` branch
+- `environment`
+- `brand`
+- `browser`
+- `headless`
+- `workers`
 
-API workflow:
+Workflow input mapping:
 
-- triggered manually from the GitHub Actions tab
-- runs only `tests/api` through `npm run test:api`
-- accepts required `environment` and `brand` inputs
-- also accepts `browser`, `headless`, and `workers`
-- uploads `playwright-report/`, `test-results/`, `allure-results/`, and generated `allure-report/`
-- publishes the generated Allure report to GitHub Pages under the `api/` path on the `gh-pages` branch
+- `environment` -> `TEST_ENV`
+- `brand` -> `TEST_BRAND`
+- `browser` -> `BROWSER`
+- `headless` -> `HEADLESS`
+- `workers` -> `WORKERS`
 
 Both workflows perform:
 
-1. `actions/checkout`
-2. `actions/setup-node` with Node.js 20
+1. checkout
+2. Node.js setup with npm cache
 3. `npm ci`
-4. optional `BASE_URL` and `API_BASE_URL` export from GitHub Variables when defined
-5. `npx playwright install --with-deps <browser>`
+4. optional `BASE_URL` and `API_BASE_URL` export from GitHub Variables
+5. Playwright browser installation with `npx playwright install --with-deps <browser>`
 6. `npm run typecheck`
 7. `npm run clean`
-8. subset test execution
-9. `npm run allure:generate`
-10. artifact upload and GitHub Pages publication
+8. suite execution through `npm run test:ui` or `npm run test:api`
+9. `npm run allure:convert` when `allure-results/` exists
+10. optional analytics upload when `ANALYTICS_IMPORT_URL` is configured
+11. `npm run allure:generate`
+12. artifact upload
+13. Allure publication to GitHub Pages
 
-The workflows intentionally use the existing provider chain and Playwright config without bypassing:
+Artifacts uploaded with `if: always()`:
 
-- `TEST_ENV` and `TEST_BRAND` selection
-- `frameworkConfigProvider` URL and execution overrides
-- `environmentProvider` file resolution
-- `accountProvider` worker validation and worker-based account allocation
-- existing logging, tags, TMS tags, screenshot on failure, and trace on first retry behavior
+- Playwright HTML report
+- test results and attachments
+- Allure raw results
+- Allure HTML report
 
-## Running Locally Vs CI
+GitHub Pages publication:
 
-Local default run:
+- UI workflow publishes to `/ui/` on the `gh-pages` branch
+- API workflow publishes to `/api/` on the `gh-pages` branch
 
-```bash
-npm test
-```
+GitHub Pages URLs:
 
-Local run with explicit overrides:
+- `https://<owner>.github.io/<repo>/ui/`
+- `https://<owner>.github.io/<repo>/api/`
 
-```bash
-npx cross-env TEST_ENV=uat TEST_BRAND=brandB BROWSER=chromium HEADLESS=true WORKERS=2 playwright test
-```
+Optional CI variables and secrets:
 
-GitHub Actions manual runs:
+- Variables: `BASE_URL`, `API_BASE_URL`, `ANALYTICS_IMPORT_URL`
+- Secret: `ANALYTICS_API_TOKEN`
 
-- UI workflow maps `environment` -> `TEST_ENV` and `brand` -> `TEST_BRAND`, then runs `npm run test:ui`
-- API workflow maps `environment` -> `TEST_ENV` and `brand` -> `TEST_BRAND`, then runs `npm run test:api`
-- both workflows can also pass `BROWSER`, `HEADLESS`, and `WORKERS`
-- local developer commands remain unchanged
+## Local vs CI Behavior
 
-## CI Variables And Overrides
+Local usage:
 
-The workflows are ready for future GitHub Actions overrides through repository or environment `Variables` and `Secrets`.
+- Local runs can rely on default `dev` and `brandA` selection.
+- Local runs can override environment, brand, browser, headless mode, workers, timeouts, viewport, and URLs.
+- Headed execution is available through `npm run test:headed`.
 
-Supported runtime inputs already understood by the framework:
+CI usage:
 
-- `TEST_ENV`
-- `TEST_BRAND`
-- `BASE_URL`
-- `API_BASE_URL`
-- `BROWSER`
-- `HEADLESS`
-- `WORKERS`
+- CI runs are intended to stay headless by passing `headless=true`.
+- CI keeps the same provider chain as local runs and does not bypass `environmentProvider`, `accountProvider`, or `frameworkConfigProvider`.
+- UI and API workflows are separate so their suites, artifacts, and GitHub Pages destinations do not overwrite each other.
 
-Recommended usage:
+## Public Repository Safety
 
-- keep public-safe demo credentials unchanged for this sample project
-- store any future private credentials in GitHub `Secrets`
-- store non-sensitive environment-specific overrides in GitHub `Variables`
-- avoid hardcoding secret values in workflow YAML
-- enable GitHub Pages from the `gh-pages` branch if Pages has not been configured yet
+This repository is safe for public hosting in its current sample form because:
 
-GitHub Pages paths:
+- UI tests use demo credentials from a public training site
+- API tests target a public demo API
+- no private URLs, API keys, or personal data are required for the sample flows
+- workflows do not hardcode secrets
+- generated artifacts and local clutter are intended to stay gitignored
+- `package.json` is marked `private`
 
-- UI Allure report: `https://<owner>.github.io/<repo>/ui/`
-- API Allure report: `https://<owner>.github.io/<repo>/api/`
+If you adapt this framework to a private system:
 
-## Suggested Review Checklist Before First Push
+- move real credentials out of committed JSON files
+- store secrets in GitHub Secrets or local gitignored inputs
+- keep non-sensitive environment overrides in GitHub Variables
 
-- Confirm no private credentials or tokens were added to config files
-- Confirm generated reports and local folders remain untracked
-- Confirm package metadata and repository name match your GitHub repository
-- Confirm manual workflow inputs match your intended environments and brands
-- Confirm GitHub Pages is enabled and permitted to publish from `gh-pages`
+## Recommended Validation
 
-## Useful Commands
+For framework or TypeScript changes:
 
 ```bash
-npm test
-npm run test:ui
-npm run test:api
 npm run typecheck
-npm run clean
-npx cross-env TEST_ENV=dev TEST_BRAND=brandA HEADLESS=true playwright test
+npm run lint
 ```
+
+For UI-impacting changes:
+
+```bash
+npm run test:ui
+```
+
+For API-impacting changes:
+
+```bash
+npm run test:api
+```
+
+For broad or unclear impact:
+
+```bash
+npx playwright test
+```
+
+## Repository Notes
+
+- `README.md` is the single documentation source of truth for local usage, configuration, architecture, reporting, and CI behavior.
+- Keep command examples aligned with real npm scripts and provider-supported environment variables.
+- If structure or workflows change, update this README in the same change set.

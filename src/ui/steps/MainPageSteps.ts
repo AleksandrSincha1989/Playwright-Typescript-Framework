@@ -26,7 +26,6 @@ export class MainPageSteps {
   async shouldSeeSecureAreaHeading(): Promise<void> {
     await test.step('Verify secure area heading', async () => {
       await expect(this.mainPage.heading).toHaveText('Secure Area');
-      await this.logger.log('Secure area heading verified');
     });
   }
 
@@ -34,28 +33,24 @@ export class MainPageSteps {
     await test.step('Verify logout button is visible', async () => {
       await expect(this.mainPage.logoutButton).toBeVisible();
       await expect(this.mainPage.logoutButton).toHaveText('Logout');
-      await this.logger.log('Logout button verified');
     });
   }
 
   async shouldSeeSecureAreaMessage(): Promise<void> {
     await test.step('Verify secure area flash message', async () => {
       await expect(this.mainPage.flashMessage).toContainText('You logged into a secure area!');
-      await this.logger.log('Secure area message verified');
     });
   }
 
   async logout(): Promise<void> {
     await test.step('Log out from the secure area', async () => {
       await this.mainPage.logoutButton.click();
-      await this.logger.log('Logout clicked');
     });
   }
 
   async shouldSeeLogoutMessage(): Promise<void> {
     await test.step('Verify logout success message', async () => {
       await expect(this.mainPage.flashMessage).toContainText('You logged out of the secure area!');
-      await this.logger.log('Logout message verified');
     });
   }
 }

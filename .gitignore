@@ -5,12 +5,14 @@ test-results/
 playwright-report/
 allure-results/
 allure-report/
+normalized-run.json
 .playwright-mcp/
 
 # Local environment overrides
 .env
 .env.*
 !.env.example
+.npmrc
 
 # Logs and temporary files
 logs/
@@ -26,6 +28,13 @@ logs/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Local secret and certificate material
+*.pem
+*.key
+*.p12
+*.cer
+*.crt
 
 # Local-only workspace folders
 AppData/

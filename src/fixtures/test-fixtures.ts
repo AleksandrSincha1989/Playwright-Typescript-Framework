@@ -16,6 +16,8 @@ type TestFixtures = {
 
 export const test = base.extend<TestFixtures, WorkerFixtures>({
   accountProvider: [
+    // Playwright requires object destructuring for the first fixture argument even when no fixtures are used.
+    // eslint-disable-next-line no-empty-pattern
     async ({}, use) => {
       await use(accountProvider);
     },

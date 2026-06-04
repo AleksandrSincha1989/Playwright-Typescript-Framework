@@ -18,7 +18,6 @@ export class JavaScriptAlertsSteps {
   async open(): Promise<void> {
     await test.step('Open JavaScript alerts page', async () => {
       await this.page.goto('/javascript_alerts');
-      await this.logger.log('Opened JavaScript alerts page');
     });
   }
 
@@ -28,7 +27,6 @@ export class JavaScriptAlertsSteps {
         await dialog.accept();
       });
       await this.javaScriptAlertsPage.jsConfirmButton.click();
-      await this.logger.log('JavaScript confirm accepted');
     });
   }
 
@@ -38,7 +36,6 @@ export class JavaScriptAlertsSteps {
         await dialog.dismiss();
       });
       await this.javaScriptAlertsPage.jsConfirmButton.click();
-      await this.logger.log('JavaScript confirm dismissed');
     });
   }
 
@@ -47,15 +44,13 @@ export class JavaScriptAlertsSteps {
       this.page.once('dialog', async (dialog) => {
         await dialog.accept(text);
       });
-      await this.javaScriptAlertsPage.jsPromptButton.click();
-      await this.logger.log('JavaScript prompt submitted', { text });
+      await this.javaScriptAlertsPage.jsPromptButton.click();;
     });
   }
 
   async shouldShowResult(text: string): Promise<void> {
     await test.step(`Verify JavaScript result contains "${text}"`, async () => {
       await expect(this.javaScriptAlertsPage.resultText).toContainText(text);
-      await this.logger.log('JavaScript result verified', { text });
     });
   }
 }
