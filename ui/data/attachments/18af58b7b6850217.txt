@@ -1,0 +1,12 @@
+[2026-06-04T16:14:24.180Z] [INFO] Test started {
+  title: 'Should select a value from the dropdown and apply the choice',
+  workerIndex: 0,
+  parallelIndex: 0,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/dropdown/dropdown-select-option.spec.ts',
+  environment: 'uat',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-06-04T16:14:24.414Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T16:14:24.532Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 380 }

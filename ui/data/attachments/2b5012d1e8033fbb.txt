@@ -1,0 +1,30 @@
+[2026-06-04T16:14:21.757Z] [INFO] Test started {
+  title: 'Should add ten elements at once',
+  workerIndex: 0,
+  parallelIndex: 0,
+  retry: 0,
+  file: '/home/runner/work/Playwright-Typescript-Framework/Playwright-Typescript-Framework/tests/ui/add-remove-elements/add-remove-10-elements.spec.ts',
+  environment: 'uat',
+  brand: 'brandA',
+  assignedAccount: 'tomsmith'
+}
+[2026-06-04T16:14:22.074Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T16:14:22.283Z] [DEBUG] Browser console error 'Failed to load resource: net::ERR_NAME_NOT_RESOLVED'
+[2026-06-04T16:14:22.564Z] [INFO] Elements added { count: 10 }
+[2026-06-04T16:14:22.579Z] [INFO] Element =  { i: 0 }
+[2026-06-04T16:14:22.584Z] [INFO] Element =  { i: 1 }
+[2026-06-04T16:14:22.588Z] [INFO] Element =  { i: 2 }
+[2026-06-04T16:14:22.591Z] [INFO] Element =  { i: 3 }
+[2026-06-04T16:14:22.595Z] [INFO] Element =  { i: 4 }
+[2026-06-04T16:14:22.598Z] [INFO] Element =  { i: 5 }
+[2026-06-04T16:14:22.601Z] [INFO] Element =  { i: 6 }
+[2026-06-04T16:14:22.605Z] [INFO] Element =  { i: 7 }
+[2026-06-04T16:14:22.608Z] [INFO] Element =  { i: 8 }
+[2026-06-04T16:14:22.613Z] [INFO] Element =  { i: 9 }
+[2026-06-04T16:14:22.616Z] [INFO] Slack
+[2026-06-04T16:14:22.616Z] [INFO] Discord
+[2026-06-04T16:14:22.616Z] [INFO] Teams
+[2026-06-04T16:14:22.616Z] [INFO] Alex
+[2026-06-04T16:14:22.617Z] [INFO] Admin
+[2026-06-04T16:14:22.617Z] [INFO] 30
+[2026-06-04T16:14:22.619Z] [INFO] Test finished { status: 'passed', expectedStatus: 'passed', durationMs: 916 }
