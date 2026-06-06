@@ -1,4 +1,4 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","136","Should get a single post successfully","","2026-06-04","passed","2026-06-04","","api/get-post.spec.ts","",""
-"","353","Should get the posts list successfully","","2026-06-04","passed","2026-06-04","","api/get-posts.spec.ts","",""
-"","130","Should create a post successfully","","2026-06-04","passed","2026-06-04","","api/create-post.spec.ts","",""
+"","136","Should get a single post successfully","","2026-06-06","passed","2026-06-06","","api/get-post.spec.ts","",""
+"","238","Should create a post successfully","","2026-06-06","passed","2026-06-06","","api/create-post.spec.ts","",""
+"","368","Should get the posts list successfully","","2026-06-06","passed","2026-06-06","","api/get-posts.spec.ts","",""
